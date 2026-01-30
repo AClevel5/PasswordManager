@@ -1,8 +1,11 @@
 from tkinter import *
 
+
 window = Tk()
 window.title("Password Manager")
-window.config(padx=20, pady=20)
+window.config(padx=40, pady=40)
+window.attributes("-topmost", True)
+window.focus_force()
 canvas = Canvas(width=200, height=200)
 lock_img = PhotoImage(file="logo.png")
 canvas.create_image(100, 100,image=lock_img)
@@ -17,8 +20,11 @@ pass_label.grid(row=3, column=0)
 
 website_entry = Entry(width=35)
 website_entry.grid(row=1, column=1, columnspan=2)
+website_entry.focus()
 email_entry = Entry(width=35)
+email_entry.insert(0, "alex@gmail.com")
 email_entry.grid(row=2, column=1, columnspan=2)
+
 pass_entry = Entry(width=20)
 pass_entry.grid(row=3, column=1)
 
