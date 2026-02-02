@@ -1,5 +1,6 @@
 from tkinter import *
 import random
+from tkinter import messagebox
 
 all_chars = [
     # Lowercase letters
@@ -23,10 +24,14 @@ def add_pass():
     website = website_entry.get()
     email = email_entry.get()
     password = pass_entry.get()
-    with open("data.txt", "a") as file:
-        file.write(f"{website} | {email} | {password}\n")
-    website_entry.delete(0, END)
-    pass_entry.delete(0, END)
+
+    is_okay = messagebox.askokcancel(title=website, message=f"These are the details entered \n Website: {website} \n Email: {email} \n Password: {password}\n Okay to proceed? ")
+
+    if is_okay:
+        with open("data.txt", "a") as file:
+            file.write(f"{website} | {email} | {password}\n")
+        website_entry.delete(0, END)
+        pass_entry.delete(0, END)
 
 def generate_pass():
     pass_entry.delete(0, END)
