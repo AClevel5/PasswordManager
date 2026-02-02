@@ -1,5 +1,14 @@
 from tkinter import *
 
+def add_pass():
+    website = website_entry.get()
+    email = email_entry.get()
+    password = pass_entry.get()
+    with open("data.txt", "a") as file:
+        file.write(f"{website} | {email} | {password}\n")
+    website_entry.delete(0, END)
+    pass_entry.delete(0, END)
+
 
 window = Tk()
 window.title("Password Manager")
@@ -30,7 +39,7 @@ pass_entry.grid(row=3, column=1)
 
 generate_password_button = Button(text="Generate Password", width=11)
 generate_password_button.grid(row=3, column=2)
-add_password_button = Button(text="Add Password", width=33)
+add_password_button = Button(text="Add Password", width=33, command=add_pass)
 add_password_button.grid(row=4, column=1, columnspan=2)
 
 
