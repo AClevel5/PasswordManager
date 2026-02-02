@@ -1,4 +1,23 @@
 from tkinter import *
+import random
+
+all_chars = [
+    # Lowercase letters
+    'a','b','c','d','e','f','g','h','i','j','k','l','m',
+    'n','o','p','q','r','s','t','u','v','w','x','y','z',
+
+    # Uppercase letters
+    'A','B','C','D','E','F','G','H','I','J','K','L','M',
+    'N','O','P','Q','R','S','T','U','V','W','X','Y','Z',
+
+    # Numbers
+    '0','1','2','3','4','5','6','7','8','9',
+
+    # Symbols (printable ASCII)
+    '!','"','#','$','%','&',"'",'(',')','*','+',
+    ',', '-', '.', '/', ':',';','<','=','>','?',
+    '@','[',']','^','_','`','{','|','}','~'
+]
 
 def add_pass():
     website = website_entry.get()
@@ -8,6 +27,14 @@ def add_pass():
         file.write(f"{website} | {email} | {password}\n")
     website_entry.delete(0, END)
     pass_entry.delete(0, END)
+
+def generate_pass():
+    pass_entry.delete(0, END)
+    generated_pass = ""
+    for x in range(0, 16):
+        generated_pass += random.choice(all_chars)
+    pass_entry.insert(END, generated_pass)
+
 
 
 window = Tk()
@@ -37,7 +64,7 @@ email_entry.grid(row=2, column=1, columnspan=2)
 pass_entry = Entry(width=20)
 pass_entry.grid(row=3, column=1)
 
-generate_password_button = Button(text="Generate Password", width=11)
+generate_password_button = Button(text="Generate Password", width=11, command=generate_pass)
 generate_password_button.grid(row=3, column=2)
 add_password_button = Button(text="Add Password", width=33, command=add_pass)
 add_password_button.grid(row=4, column=1, columnspan=2)
