@@ -25,13 +25,16 @@ def add_pass():
     email = email_entry.get()
     password = pass_entry.get()
 
-    is_okay = messagebox.askokcancel(title=website, message=f"These are the details entered \n Website: {website} \n Email: {email} \n Password: {password}\n Okay to proceed? ")
+    if website == "" or email == "" or password == "":
+        messagebox.showerror("Error", "Please enter all required information")
+    else:
+        is_okay = messagebox.askokcancel(title=website, message=f"These are the details entered \n Website: {website} \n Email: {email} \n Password: {password}\n Okay to proceed? ")
 
-    if is_okay:
-        with open("data.txt", "a") as file:
-            file.write(f"{website} | {email} | {password}\n")
-        website_entry.delete(0, END)
-        pass_entry.delete(0, END)
+        if is_okay:
+            with open("data.txt", "a") as file:
+                file.write(f"{website} | {email} | {password}\n")
+            website_entry.delete(0, END)
+            pass_entry.delete(0, END)
 
 def generate_pass():
     pass_entry.delete(0, END)
