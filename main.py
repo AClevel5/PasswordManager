@@ -1,6 +1,8 @@
+from json import JSONDecodeError
 from tkinter import *
 import random
 from tkinter import messagebox
+import json
 
 all_chars = [
     # Lowercase letters
@@ -24,17 +26,27 @@ def add_pass():
     website = website_entry.get()
     email = email_entry.get()
     password = pass_entry.get()
-
-    if website == "" or email == "" or password == "":
+    new_data = {website:{
+        "email": email,
+        "password": password
+    }}
+    if website == "" or password == "":
         messagebox.showerror("Error", "Please enter all required information")
     else:
-        is_okay = messagebox.askokcancel(title=website, message=f"These are the details entered \n Website: {website} \n Email: {email} \n Password: {password}\n Okay to proceed? ")
+        try:
+            with open("data.json", "r") as file:
+                data = json.load(file)
+                data.update(new_data)
+        except JSONDecodeError:
+            data = new_data
 
-        if is_okay:
-            with open("data.txt", "a") as file:
-                file.write(f"{website} | {email} | {password}\n")
-            website_entry.delete(0, END)
-            pass_entry.delete(0, END)
+        with open("data.json", "w") as file:
+            json.dump(data, file, indent=4)
+
+
+
+        website_entry.delete(0, END)
+        pass_entry.delete(0, END)
 
 def generate_pass():
     pass_entry.delete(0, END)
