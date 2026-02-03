@@ -37,16 +37,36 @@ def add_pass():
             with open("data.json", "r") as file:
                 data = json.load(file)
                 data.update(new_data)
+        #file does not exist
+        except FileNotFoundError:
+            with open("data.json", "w") as file:
+                json.dump(new_data, file, indent=4)
+        #file is empty
         except JSONDecodeError:
             data = new_data
+        else:
+            with open("data.json", "w") as file:
+                json.dump(data, file, indent=4)
+        finally:
+            website_entry.delete(0, END)
+            pass_entry.delete(0, END)
 
-        with open("data.json", "w") as file:
-            json.dump(data, file, indent=4)
 
 
+def search():
+    website = website_entry.get()
+    print(type(website))
+    try:
+        with open("data.json", "r") as file:
+            data = json.load(file)
+            email = data[website]["email"]
+            password = data[website]["password"]
+            messagebox.showinfo("Password Manager", f"Username:,{email}\nPassword:{password}")
+    except FileNotFoundError:
+        messagebox.showerror("Error", "No passwords are stored.")
+    except KeyError:
+        messagebox.showerror("Error", "No credentials are stored for this website.")
 
-        website_entry.delete(0, END)
-        pass_entry.delete(0, END)
 
 def generate_pass():
     pass_entry.delete(0, END)
@@ -74,8 +94,8 @@ email_label.grid(row=2, column=0)
 pass_label = Label(window, text="Password")
 pass_label.grid(row=3, column=0)
 
-website_entry = Entry(width=35)
-website_entry.grid(row=1, column=1, columnspan=2)
+website_entry = Entry(width=20)
+website_entry.grid(row=1, column=1, columnspan=1)
 website_entry.focus()
 email_entry = Entry(width=35)
 email_entry.insert(0, "alex@gmail.com")
@@ -88,6 +108,8 @@ generate_password_button = Button(text="Generate Password", width=11, command=ge
 generate_password_button.grid(row=3, column=2)
 add_password_button = Button(text="Add Password", width=33, command=add_pass)
 add_password_button.grid(row=4, column=1, columnspan=2)
+search_button = Button(text="Search", width=11, command=search)
+search_button.grid(row=1, column=2, columnspan=1)
 
 
 
